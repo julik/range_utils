@@ -9,20 +9,20 @@ It is mainly useful for working with batches of IDs and HTTP content ranges.
 
     # Combine consecutive Range objects:
     RangeUtils.splice([0..0, 0..4, 5..14, 16..20]) #=> [0..14, 16..20]
-
+    
     # Get the range for a given size of the collection:
     RangeUtils.range_for_size_of(14) #=> 0..13
-
+    
     # or get the size from a Range:
     RangeUtils.size_from_range(0..0) #=> 1
     RangeUtils.size_from_range(12..123) #=> 112
-
+    
     # Get the Ranges of maximum size for a given number of elements:
     RangeUtils.ranges_of_offfsets_for_size(3, 1) #=> [0..0, 1..1, 2..2]
-
+    
     # Split a large Range into smaller ranges of given maximum size:
     RangeUtils.split_range_into_subranges_of(0..7, 3) #=> [0..2, 3..5, 5..7]
-
+    
     # Prepare a number of HTTP Range headers (each request will be 1 byte):
     RangeUtils.http_ranges_for_size(3, 1) #=> [0..0, 1..1, 2..2]
 
