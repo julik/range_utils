@@ -1,0 +1,87 @@
+module RangeUtils
+  VERSION = '1.0.0'
+  
+  # Tells whether the +item+ is included in the +range+, without enumerating
+  # through the +range+ (performing a quick bounds check).
+  # The first value of the range and the +item+ have to support +<=>+
+  def range_includes_item?(range, item)
+    range.begin <= item && item <= range.end
+  end
+  
+  # Splits the given Range into subranges of +size+.
+  #
+  #   split_range_into_subranges_of(0..7, 3) #=> [0..2, 3..5, 5..7]
+  # 
+  # Range members must support +<=>+ and aruthmetic with integers.
+  # +size+ has to be > 0.
+  def split_range_into_subranges_of(range, size)
+    raise ArgumentError, "Chunk size should be > 0, was #{size}" unless size > 0
+    
+    num_values = range.end - range.begin + 1
+    ranges = []
+    at = range.begin
+    loop do
+      if at > range.end
+        return ranges
+      else
+        end_of_chunk = (at + size - 1)
+        current = at..(end_of_chunk > range.end ? range.end : end_of_chunk)
+        at = (at + size)
+        ranges << current
+        yield(current) if block_given?
+      end
+    end
+  end
+  
+  # Returns ranges for the given size. The returned ranges start at zero.
+  # Can be used to split a Content-Length of an HTTP resource into
+  # ranges usable in Range: header for instance.
+  #
+  # Since the initial offset is 0 the resulting ranges will always end at
+  # +size - 1+
+  #
+  #   ranges_of_offfsets_for_size(3, 1) #=> [0..0, 1..1, 2..2]
+  #   ranges_of_offfsets_for_size(3, 2) #=> [0..1, 2..2]
+  # 
+  # Range members must support +<=>+ and aruthmetic with integers.
+  # +size+ has to be > 0.
+  def ranges_of_offfsets_for_size(number_of_items, chunk_size)
+    raise ArgumentError, "Chunk size should be > 0, was #{chunk_size}" unless chunk_size > 0
+    split_range_into_subranges_of(range_for_size_of(number_of_items), chunk_size)
+  end
+  
+  # Creates a Range that can be used to grab N first elements from, say,
+  # an Array or a String.
+  #   range_for_size(14) #=> 0..13
+  #   "abcd"[range_for_size(2)] #=> "ab"
+  #
+  # +number_of_items+ should be >= 0. For the +number_of_items+
+  # a special Range of 0..-1 will be returned (note that this Range cannot fetch anything).
+  def range_for_size_of(number_of_items)
+    raise ArgumentError, "Number of items should be at least 0, was #{number_of_items}"  if number_of_items < 0
+    (0..(number_of_items - 1))
+  end
+  
+  # Combine ranges with adjacent or overlapping values (create a union range).
+  #   splice([0..0, 0..4, 5..14, 16..20]) #=> [0..14, 16..20]
+  # Range members must support +<=>+ and aruthmetic with integers.
+  def splice(ranges)
+    ranges.sort_by(&:begin).inject([]) do | spliced, r |
+      if spliced.empty?
+        spliced + [r]
+      else
+        last = spliced.pop
+        if last.end >= (r.begin - 1)
+          ends = [last.end, last.begin, r.begin, r.end].sort
+          new_end, new_begin = ends.shift, ends.pop
+          spliced + [(new_end..new_begin)]
+        else
+          spliced + [last, r]
+        end
+      end
+    end
+  end
+  
+  alias_method :http_ranges_for_size, :ranges_of_offfsets_for_size
+  extend self
+end
