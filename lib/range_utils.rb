@@ -1,5 +1,5 @@
 module RangeUtils
-  VERSION = '1.0.0'
+  VERSION = '1.1.0'
   
   # Tells whether the +item+ is included in the +range+, without enumerating
   # through the +range+ (performing a quick bounds check).
@@ -80,6 +80,16 @@ module RangeUtils
         end
       end
     end
+  end
+  
+  # Returns the number of members of the given Range.
+  #   size_from_range(0..0) #=> 1
+  #   size_from_range(12..123) #=> 112
+  # Range members must support aruthmetic with integers.
+  def size_from_range(range)
+    size = range.end - range.begin + 1
+    raise ArgumentError, "The resulting size for range #{range} is negative" if size < 0
+    size
   end
   
   alias_method :http_ranges_for_size, :ranges_of_offfsets_for_size

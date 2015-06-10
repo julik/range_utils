@@ -13,7 +13,12 @@ Combine consecutive Range objects:
 
 Get the range for a given size of the collection:
 
-    RangeUtils.range_for_size(14) #=> 0..13
+    RangeUtils.range_for_size_of(14) #=> 0..13
+
+or get the size from a Range:
+
+    RangeUtils.size_from_range(0..0) #=> 1
+    RangeUtils.size_from_range(12..123) #=> 112
 
 Get the Ranges of maximum size for a given number of elements:
 

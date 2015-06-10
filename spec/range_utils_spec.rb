@@ -122,4 +122,17 @@ describe "RangeUtils" do
       expect(subject.http_ranges_for_size(785, 324)).to eq([0..323, 324..647, 648..784])
     end
   end
+  
+  context '.size_from_range' do
+    it 'raises an ArgumentError when the range goes into negative' do
+      expect{
+        subject.size_from_range(0..-15)
+      }.to raise_error(ArgumentError, 'The resulting size for range 0..-15 is negative')
+    end
+    
+    it 'computes the right size from the given Range' do
+      expect(subject.size_from_range(0..522753)).to eq(522754)
+    end
+  end
+  
 end

@@ -20,8 +20,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "range_utils"
   gem.homepage = "http://github.com/julik/range_utils"
   gem.license = "MIT"
-  gem.summary = %Q{There is a whole range of things you can do with a Range}
-  gem.description = %Q{Range splice, split and other niceties}
+  gem.description = %Q{There is a whole range of things you can do with a Range}
+  gem.summary = %Q{Range splice, split and other niceties}
   gem.email = "me@julik.nl"
   gem.authors = ["Julik Tarkhanov"]
   # dependencies defined in Gemfile
