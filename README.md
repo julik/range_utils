@@ -1,5 +1,7 @@
 # range_utils
 
+[![Build Status](https://travis-ci.org/julik/range_utils.svg?branch=master)](https://travis-ci.org/julik/range_utils)
+
 There is more to a Range than meets the eye. Or more to the eye than meets the Range. Or whatever.
 
 `RangeUtils` is a non-intrusive module for doing useful things to Range objects.
