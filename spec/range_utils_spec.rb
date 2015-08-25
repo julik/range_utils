@@ -150,5 +150,4 @@ describe "RangeUtils" do
       expect(subject.size_from_range(0..522753)).to eq(522754)
     end
   end
-  
 end
