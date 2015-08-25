@@ -23,7 +23,7 @@ It is mainly useful for working with batches of IDs and HTTP content ranges.
     RangeUtils.ranges_of_offfsets_for_size(3, 1) #=> [0..0, 1..1, 2..2]
     
     # Split a large Range into smaller ranges of given maximum size:
-    RangeUtils.split_range_into_subranges_of(0..7, 3) #=> [0..2, 3..5, 5..7]
+    RangeUtils.split_range_into_subranges_of(0..7, 3) #=> [0..2, 3..5, 6..7]
     
     # Prepare a number of HTTP Range headers (each request will be 1 byte):
     RangeUtils.http_ranges_for_size(3, 1) #=> [0..0, 1..1, 2..2]
