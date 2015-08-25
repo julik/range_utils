@@ -137,6 +137,12 @@ describe "RangeUtils" do
       expect(first).to eq(0..12)
       expect(remainder).to be_nil
     end
+    
+    it 'handles the 0-item remainder range case correctly' do
+      first, remainder = subject.take(0..1, 2)
+      expect(first).to eq(0..1)
+      expect(remainder).to be_nil
+    end
   end
   
   context '.size_from_range' do

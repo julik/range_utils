@@ -1,5 +1,5 @@
 module RangeUtils
-  VERSION = '1.2.0'
+  VERSION = '1.2.1'
   
   # Tells whether the +item+ is included in the +range+, without enumerating
   # through the +range+ (performing a quick bounds check).
@@ -104,7 +104,7 @@ module RangeUtils
   # Range members and n_items must support aruthmetic with integers
   def take(from_range, n_items)
     end_at = from_range.begin + (n_items - 1)
-    return [from_range, nil] if end_at > from_range.end
+    return [from_range, nil] if end_at >= from_range.end
     [from_range.begin..end_at, end_at.succ..from_range.end]
   end
   
