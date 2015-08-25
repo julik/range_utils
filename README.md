@@ -27,6 +27,9 @@ It is mainly useful for working with batches of IDs and HTTP content ranges.
     
     # Prepare a number of HTTP Range headers (each request will be 1 byte):
     RangeUtils.http_ranges_for_size(3, 1) #=> [0..0, 1..1, 2..2]
+    
+    # Take N items from the range
+    RangeUtils.take(4..514, 3) #=> [4..6, 7..514]
 
 ## Contributing to range_utils
  

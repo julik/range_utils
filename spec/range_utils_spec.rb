@@ -123,6 +123,22 @@ describe "RangeUtils" do
     end
   end
   
+  context '.take' do
+    it 'returns the first range and the remainder' do
+      first, remainder = subject.take(0..12, 3)
+      expect(subject.size_from_range(first)).to eq(3)
+      expect(first).to eq(0..2)
+      expect(remainder).to eq(3..12)
+      expect(subject.splice([first, remainder])).to eq([0..12])
+    end
+    
+    it 'returns nil as the remainder if n_items exceeds the whole range' do
+      first, remainder = subject.take(0..12, 15)
+      expect(first).to eq(0..12)
+      expect(remainder).to be_nil
+    end
+  end
+  
   context '.size_from_range' do
     it 'raises an ArgumentError when the range goes into negative' do
       expect{

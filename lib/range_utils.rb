@@ -1,5 +1,5 @@
 module RangeUtils
-  VERSION = '1.1.0'
+  VERSION = '1.2.0'
   
   # Tells whether the +item+ is included in the +range+, without enumerating
   # through the +range+ (performing a quick bounds check).
@@ -90,6 +90,22 @@ module RangeUtils
     size = range.end - range.begin + 1
     raise ArgumentError, "The resulting size for range #{range} is negative" if size < 0
     size
+  end
+  
+  # Take N items from the range, and return two Ranges
+  # the first being the range containing N items requested,
+  # and the other containing the remainder
+  #   take(4..514, 3) #=> [4..6, 7..514]
+  # If the range is too small for the number of items requested, the range itself and +nil+ will
+  # be returned instead:
+  #
+  #   take(4..514, 1024) #=> [4..514, nil]
+  #
+  # Range members and n_items must support aruthmetic with integers
+  def take(from_range, n_items)
+    end_at = from_range.begin + (n_items - 1)
+    return [from_range, nil] if end_at > from_range.end
+    [from_range.begin..end_at, end_at.succ..from_range.end]
   end
   
   alias_method :http_ranges_for_size, :ranges_of_offfsets_for_size
