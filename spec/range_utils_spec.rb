@@ -149,7 +149,7 @@ describe "RangeUtils" do
     it 'raises an ArgumentError when the range goes into negative' do
       expect{
         subject.size_from_range(0..-15)
-      }.to raise_error(ArgumentError, 'The resulting size for range 0..-15 is negative')
+      }.to raise_error(RangeUtils::NegativeRangeSpan, 'The resulting size for range 0..-15 is negative')
     end
     
     it 'computes the right size from the given Range' do

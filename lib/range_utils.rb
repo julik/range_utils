@@ -1,6 +1,8 @@
 module RangeUtils
   VERSION = '1.2.1'
   
+  NegativeRangeSpan = Class.new(ArgumentError)
+  
   # Tells whether the +item+ is included in the +range+, without enumerating
   # through the +range+ (performing a quick bounds check).
   # The first value of the range and the +item+ have to support +<=>+
@@ -88,7 +90,7 @@ module RangeUtils
   # Range members must support aruthmetic with integers.
   def size_from_range(range)
     size = range.end - range.begin + 1
-    raise ArgumentError, "The resulting size for range #{range} is negative" if size < 0
+    raise NegativeRangeSpan, "The resulting size for range #{range} is negative" if size < 0
     size
   end
   
