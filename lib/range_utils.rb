@@ -1,5 +1,5 @@
 module RangeUtils
-  VERSION = '1.2.1'
+  VERSION = '1.3.1'
   
   NegativeRangeSpan = Class.new(ArgumentError)
   
