@@ -14,7 +14,7 @@ module RangeUtils
   #
   #   split_range_into_subranges_of(0..7, 3) #=> [0..2, 3..5, 5..7]
   # 
-  # Range members must support +<=>+ and aruthmetic with integers.
+  # Range members must support +<=>+ and arithmetic with integers.
   # +size+ has to be > 0.
   def split_range_into_subranges_of(range, size)
     raise ArgumentError, "Chunk size should be > 0, was #{size}" unless size > 0
@@ -45,7 +45,7 @@ module RangeUtils
   #   ranges_of_offfsets_for_size(3, 1) #=> [0..0, 1..1, 2..2]
   #   ranges_of_offfsets_for_size(3, 2) #=> [0..1, 2..2]
   # 
-  # Range members must support +<=>+ and aruthmetic with integers.
+  # Range members must support +<=>+ and arithmetic with integers.
   # +size+ has to be > 0.
   def ranges_of_offfsets_for_size(number_of_items, chunk_size)
     raise ArgumentError, "Chunk size should be > 0, was #{chunk_size}" unless chunk_size > 0
@@ -66,7 +66,7 @@ module RangeUtils
   
   # Combine ranges with adjacent or overlapping values (create a union range).
   #   splice([0..0, 0..4, 5..14, 16..20]) #=> [0..14, 16..20]
-  # Range members must support +<=>+ and aruthmetic with integers.
+  # Range members must support +<=>+ and arithmetic with integers.
   def splice(ranges)
     ranges.sort_by(&:begin).inject([]) do | spliced, r |
       if spliced.empty?
@@ -87,7 +87,7 @@ module RangeUtils
   # Returns the number of members of the given Range.
   #   size_from_range(0..0) #=> 1
   #   size_from_range(12..123) #=> 112
-  # Range members must support aruthmetic with integers.
+  # Range members must support arithmetic with integers.
   def size_from_range(range)
     size = range.end - range.begin + 1
     raise NegativeRangeSpan, "The resulting size for range #{range} is negative" if size < 0
@@ -103,7 +103,7 @@ module RangeUtils
   #
   #   take(4..514, 1024) #=> [4..514, nil]
   #
-  # Range members and n_items must support aruthmetic with integers
+  # Range members and n_items must support arithmetic with integers
   def take(from_range, n_items)
     end_at = from_range.begin + (n_items - 1)
     return [from_range, nil] if end_at >= from_range.end
