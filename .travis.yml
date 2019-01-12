@@ -7,9 +7,6 @@ rvm:
 - jruby-9.0
 sudo: false
 cache: bundler
-before_install:
-  - 'gem uninstall --all --executables bundler' # Remove stock Bundler as it might be 2.x
-  - 'gem install bundler -v "~> 1.0"' # https://github.com/travis-ci/travis-ci/issues/9333
 matrix:
   allow_failures:
     - rvm: jruby-9.0
