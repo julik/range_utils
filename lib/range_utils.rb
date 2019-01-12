@@ -1,6 +1,6 @@
 module RangeUtils
-  VERSION = '1.3.1'
-  
+  require_relative 'range_utils/version'
+
   NegativeRangeSpan = Class.new(ArgumentError)
   
   # Tells whether the +item+ is included in the +range+, without enumerating
@@ -109,7 +109,23 @@ module RangeUtils
     return [from_range, nil] if end_at >= from_range.end
     [from_range.begin..end_at, end_at.succ..from_range.end]
   end
-  
+
+  # Returns the intersection of two given Ranges or `nil` if they do not intersect.
+  # Adjacent ranges do not get merged.
+  #
+  #   intersection_of(0..456, 26..12889) #=> 26..456
+  #   intersection_of(0..456, 7811..12889) #=> nil
+  #   intersection_of(0..0, 1..1) #=> nil
+  #
+  # Range members and n_items must support arithmetic with integers
+  def intersection_of(range_a, range_b)
+    range_a, range_b = [range_a, range_b].sort_by(&:begin)
+    return if range_a.end < range_b.begin
+    heads_and_tails = [range_a.begin, range_b.begin, range_a.end, range_b.end].sort
+    middle = heads_and_tails[1..-2]
+    middle[0]..middle[1]
+  end
+
   alias_method :http_ranges_for_size, :ranges_of_offfsets_for_size
   extend self
 end

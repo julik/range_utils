@@ -156,4 +156,17 @@ describe "RangeUtils" do
       expect(subject.size_from_range(0..522753)).to eq(522754)
     end
   end
+
+  context '.range_intersection_of' do
+    it 'computes range intersections' do
+      expect( RangeUtils.intersection_of(0..123, 456..456) ).to be_nil
+      expect( RangeUtils.intersection_of(0..123, 245..245) ).to be_nil
+
+      expect( RangeUtils.intersection_of(0..0, 1..1) ).to be_nil
+      expect( RangeUtils.intersection_of(0..1, 1..1) ).to eq(1..1)
+
+      expect( RangeUtils.intersection_of(15..145859, 85..564) ).to eq(85..564)
+      expect( RangeUtils.intersection_of(15..145859, 85..145870) ).to eq(85..145859)
+    end
+  end
 end
