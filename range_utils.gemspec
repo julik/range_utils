@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors        = ['Julik Tarkhanov']
   spec.email          = ['me@julik.nl']
 
-  spec.description = %Q{There is a whole range of things you can do with a Range}
-  spec.summary = %Q{Range splice, split and other niceties}
-  spec.homepage       = 'http://github.com/wetransfer/range_utils'
+  spec.description = %q{There is a whole range of things you can do with a Range}
+  spec.summary = %q{Range splice, split and other niceties}
+  spec.homepage = 'http://github.com/wetransfer/range_utils'
 
   # Prevent pushing this gem to RubyGems.org.
   # To allow pushes either set the 'allowed_push_host'
@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1'
   spec.add_development_dependency 'rake', '~> 12.2'
   spec.add_development_dependency 'rspec', '~> 3'
+  spec.add_development_dependency 'wetransfer_style', '0.6.0'
 end
