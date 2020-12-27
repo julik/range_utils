@@ -16,21 +16,28 @@ module RangeUtils
   #
   # Range members must support +<=>+ and arithmetic with integers.
   # +size+ has to be > 0.
-  def split_range_into_subranges_of(range, size)
-    raise ArgumentError, "Chunk size should be > 0, was #{size}" unless size > 0
+  def split_range_into_subranges_of(range, chunk_size)
+    raise ArgumentError, "Chunk size should be > 0, was #{chunk_size}" if chunk_size < 1
+    raise ArgumentError, "The given range to split must be inclusive" if range.exclude_end?
+    raise ArgumentError, "The given range to split must be finite" unless range.size.finite?
 
-    ranges = []
-    at = range.begin
-    loop do
-      if at > range.end
-        return ranges
-      else
-        end_of_chunk = (at + size - 1)
-        current = at..(end_of_chunk > range.end ? range.end : end_of_chunk)
-        at = (at + size)
-        ranges << current
-        yield(current) if block_given?
-      end
+    # To be compatible with the previous version,
+    # the default should return an Array - not an Enumerator. If one wishes an Enumerator
+    # enum_for can always be used explicitly.
+    unless block_given?
+      return enum_for(:split_range_into_subranges_of, range, chunk_size).to_a
+    end
+
+    whole_subranges, remainder = range.size.divmod(chunk_size)
+    whole_subranges.times do |n|
+      subrange_start = range.begin + (n * chunk_size)
+      subrange_end = subrange_start + chunk_size - 1
+      yield(subrange_start..subrange_end)
+    end
+    if remainder > 0
+      subrange_start = range.begin + (whole_subranges * chunk_size)
+      subrange_end = subrange_start + remainder - 1
+      yield(subrange_start..subrange_end)
     end
   end
 
