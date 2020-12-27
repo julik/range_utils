@@ -28,15 +28,9 @@ module RangeUtils
       return enum_for(:split_range_into_subranges_of, range, chunk_size).to_a
     end
 
-    whole_subranges, remainder = range.size.divmod(chunk_size)
-    whole_subranges.times do |n|
-      subrange_start = range.begin + (n * chunk_size)
-      subrange_end = subrange_start + chunk_size - 1
-      yield(subrange_start..subrange_end)
-    end
-    if remainder > 0
-      subrange_start = range.begin + (whole_subranges * chunk_size)
-      subrange_end = subrange_start + remainder - 1
+    range.begin.step(range.end, chunk_size) do |subrange_start|
+      chunk_end = subrange_start + chunk_size - 1
+      subrange_end = chunk_end > range.end ? range.end : chunk_end
       yield(subrange_start..subrange_end)
     end
   end
