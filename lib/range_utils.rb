@@ -19,7 +19,7 @@ module RangeUtils
   def split_range_into_subranges_of(range, chunk_size)
     raise ArgumentError, "Chunk size should be > 0, was #{chunk_size}" if chunk_size < 1
     raise ArgumentError, "The given range to split must be inclusive" if range.exclude_end?
-    raise ArgumentError, "The given range to split must be finite" if range.respond_to?(:size) && !range.size.finite?
+    raise ArgumentError, "The given range to split must be finite" if range.respond_to?(:size) && range.size.respond_to?(:finite) && !range.size.finite?
 
     # To be compatible with the previous version,
     # the default should return an Array - not an Enumerator. If one wishes an Enumerator
